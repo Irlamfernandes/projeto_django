@@ -1,0 +1,32 @@
+# 🔨 Constrói as imagens definidas no docker-compose.yml
+build:
+	docker-compose build
+
+# 🚀 Sobe os containers em modo interativo (logs na tela)
+up:
+	docker-compose up
+
+# 🚀 Sobe os containers em segundo plano (detached)
+up-detached:
+	docker-compose up -d
+
+# ⏹️ Para e remove os containers
+down:
+	docker-compose down
+
+# ♻️ Reconstrói as imagens sem usar cache
+rebuild:
+	docker-compose build --no-cache
+
+# 🖥️ Abre um terminal bash dentro do container "web"
+bash:
+	docker-compose exec web bash
+
+# 🧪 Executa os testes com pytest dentro do container "web"
+test:
+	docker-compose exec web pytest
+
+# 🧹 Remove imagens, containers, volumes e redes não usados
+clean:
+	docker system prune -af
+	docker volume prune -f

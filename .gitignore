@@ -1,0 +1,52 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+.env
+*.env
+
+# IDEs
+.vscode/
+.idea/
+
+# Docker - ignorar só arquivos locais de override, não o Dockerfile principal
+docker-compose.override.yml
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# macOS
+.DS_Store
+
+# Environment variables
+.env
+.env.*
+
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Python virtual environments
+venv/
+env/
+ENV/
+
+# Node modules (se usar)
+node_modules/
+
+# Cache e reports de testes
+.pytest_cache/
+.coverage
+htmlcov/
