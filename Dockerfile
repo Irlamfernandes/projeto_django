@@ -13,8 +13,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar o resto do código
 COPY . /app/
 
+# Copiar o entrypoint
+COPY entrypoint.sh /app/entrypoint.sh
+
+# Garantir permissão de execução
+RUN chmod +x /app/entrypoint.sh
+
 # Porta do Django
 EXPOSE 8000
 
-# Comando padrão
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Definir entrypoint
+ENTRYPOINT ["/app/entrypoint.sh"]
