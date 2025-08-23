@@ -10,6 +10,9 @@ COPY requirements.txt /app/
 # Instalar dependências
 RUN pip install --no-cache-dir -r requirements.txt
 
+#Instalar PostgreSQL client
+RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
+
 # Copiar o resto do código
 COPY . /app/
 
