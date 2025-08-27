@@ -97,3 +97,7 @@ Aguarde até mostrar "Docker is running".
 docker --version
 docker-compose --version
 docker run hello-world
+
+# Passo a passo de comandos Git
+
+[Clique aqui](https://chatgpt.com/share/68a51ee8-5ecc-8005-9b90-9f3b7b248f74) para acessar a página que indica os comandos e passo a passo Git que serão utilizados ao longo do projeto.
