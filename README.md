@@ -100,4 +100,4 @@ docker run hello-world
 
 # Passo a passo de comandos Git
 
-[Clique aqui](https://chatgpt.com/share/68ae370b-448c-8005-9a2d-c4da5a7a8153) para acessar a página que indica os comandos e passo a passo Git que serão utilizados ao longo do projeto.
+[Clique aqui](https://chatgpt.com/share/68a51ee8-5ecc-8005-9b90-9f3b7b248f74) para acessar a página que indica os comandos e passo a passo Git que serão utilizados ao longo do projeto.
