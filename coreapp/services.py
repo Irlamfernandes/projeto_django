@@ -65,3 +65,31 @@ if __name__ == "__main__":
             print(f"{f.get('title', 'Sem título')} ({f.get('release_date', 'Data desconhecida')})")
     except TMDbError as e:
         print(f"Erro: {e}")
+
+def buscar_streaming_justwatch(id_tmdb: int, country: str = "BR"):
+    """
+    Busca provedores de streaming para um filme no TMDb (via JustWatch).
+    
+    Parâmetros:
+        id_tmdb (int): ID do filme no TMDb.
+        country (str): Código do país (default: 'BR').
+
+    Retorna:
+        list: Lista de provedores de streaming disponíveis no país informado.
+    """
+    url = f"{BASE_URL}/movie/{id_tmdb}/watch/providers"
+    params = {"api_key": API_KEY}
+
+    try:
+        resp = requests.get(url, params=params, timeout=10)
+        resp.raise_for_status()
+        data = resp.json()
+
+        # Pega dados do país escolhido (exemplo: BR)
+        country_data = data.get("results", {}).get(country, {})
+        providers = country_data.get("flatrate", [])  # streaming incluso no catálogo
+
+        return providers
+
+    except requests.exceptions.RequestException as e:
+        raise Exception(f"Erro ao buscar provedores: {e}")
