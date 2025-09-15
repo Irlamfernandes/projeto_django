@@ -1,4 +1,12 @@
-from django.http import HttpResponse
+from django.shortcuts import render
+from django.views import View
 
-def ola (request):
-    return HttpResponse("Olá, Tudo Bem?")
+class BuscarFilmeView(View):
+    def get(self, request):
+        query = request.GET.get("q", "")
+        resultados = []
+        context = {
+            "query": query,
+            "resultados": resultados
+        }
+        return render(request, "buscar.html", context)
