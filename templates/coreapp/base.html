@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BuscarFilmes - Encontre seus filmes favoritos{% endblock %}</title>
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+    <header>
+        <div>
+            <h1>BuscarFilmes</h1>
+            <p>Descubra filmes e onde assistir online</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Início</a></li>
+                <li><a href="{% url 'populares' %}">Filmes Populares</a></li>
+                <li><a href="{% url 'sobre' %}">Sobre</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>Projeto acadêmico</p>
+        <p>&copy; 2025 BuscarFilmes</p>
+    </footer>
+</body>
+</html>
