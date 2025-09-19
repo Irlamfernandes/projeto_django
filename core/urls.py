@@ -5,6 +5,4 @@ from coreapp import views
 urlpatterns = [
     path('', include('coreapp.urls')),
     path('admin/', admin.site.urls),
-    path('ola/', views.ola),
-    path('', views.ola),
 ]
