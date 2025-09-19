@@ -12,7 +12,7 @@ class TMDbError(Exception):
 class TMDbClient:
     """
     Cliente para interagir com a API do TMDb.
-    
+
     Parâmetros:
         api_key (str): Chave da API do TMDb.
         base_url (str): URL base da API.
@@ -28,7 +28,7 @@ class TMDbClient:
     def buscar_filmes(self, nome_filme: str, page: int = 1):
         """
         Busca filmes pelo nome usando a API do TMDb.
-        
+
         Parâmetros:
             nome_filme (str): Nome do filme a buscar.
             page (int): Página de resultados (default: 1).
@@ -57,39 +57,53 @@ class TMDbClient:
         except ValueError:
             raise TMDbError("Resposta inválida da API do TMDb.")
 
-if __name__ == "__main__":
-    cliente = TMDbClient()
-    try:
-        filmes = cliente.buscar_filmes("Rei leão")  # já coloca o filme que quer testar
-        for f in filmes[:5]:  # mostra só os 5 primeiros
-            print(f"{f.get('title', 'Sem título')} ({f.get('release_date', 'Data desconhecida')})")
-    except TMDbError as e:
-        print(f"Erro: {e}")
 
-def buscar_streaming_justwatch(id_tmdb: int, country: str = "BR"):
+class StreamingClient:
     """
-    Busca provedores de streaming para um filme no TMDb (via JustWatch).
-    
+    Cliente para buscar provedores de streaming para filmes do TMDb.
+
     Parâmetros:
-        id_tmdb (int): ID do filme no TMDb.
-        country (str): Código do país (default: 'BR').
-
-    Retorna:
-        list: Lista de provedores de streaming disponíveis no país informado.
+        api_key (str): Chave da API do TMDb.
+        base_url (str): URL base da API.
     """
-    url = f"{BASE_URL}/movie/{id_tmdb}/watch/providers"
-    params = {"api_key": API_KEY}
 
-    try:
-        resp = requests.get(url, params=params, timeout=10)
-        resp.raise_for_status()
-        data = resp.json()
+    def __init__(self, api_key=API_KEY, base_url=BASE_URL):
+        self.api_key = api_key
+        self.base_url = base_url
+        self.session = requests.Session()  # Mantém conexões para múltiplas requisições
 
-        # Pega dados do país escolhido (exemplo: BR)
-        country_data = data.get("results", {}).get(country, {})
-        providers = country_data.get("flatrate", [])  # streaming incluso no catálogo
+    def buscar_filmes_streaming(self, id_tmdb: int, country: str = "BR"):
+        """
+        Busca provedores de streaming para um filme específico.
 
-        return providers
+        Parâmetros:
+            id_tmdb (int): ID do filme no TMDb.
+            country (str): Código do país (default: 'BR').
 
-    except requests.exceptions.RequestException as e:
-        raise Exception(f"Erro ao buscar provedores: {e}")
+        Retorna:
+            list: Lista de provedores de streaming disponíveis no país informado.
+                Cada item é um dicionário com pelo menos as chaves:
+                - 'provider_name': str, nome do serviço de streaming
+                - 'logo_path': str, caminho do logo do serviço
+                - 'provider_id': int, ID do serviço
+                - outros campos podem estar presentes conforme a API do TMDb
+
+        Levanta:
+            TMDbError: Se ocorrer algum problema de rede ou se a API retornar erro.
+        """
+        url = f"{self.base_url}/movie/{id_tmdb}/watch/providers"
+        params = {"api_key": self.api_key}
+
+        try:
+            resp = self.session.get(url, params=params, timeout=10)
+            resp.raise_for_status()
+            data = resp.json()
+
+            country_data = data.get("results", {}).get(country, {})
+            providers = country_data.get("flatrate", [])
+
+            return providers
+        except requests.exceptions.RequestException as e:
+            raise TMDbError(f"Erro ao buscar provedores: {e}")
+        except ValueError:
+            raise TMDbError("Resposta inválida da API do TMDb.")
