@@ -33,4 +33,4 @@ class BuscarFilmeView(View):
             except TMDbError as e:
                 context["erro"] = f"Ocorreu um erro ao buscar os filmes: {e}"
 
-        return render(request, "resultados.html", context) # 
+        return render(request, "coreapp/resultados.html", context) # 
