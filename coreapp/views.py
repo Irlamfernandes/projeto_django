@@ -19,8 +19,10 @@ class BuscarFilmeView(View):
 
                 resultados_api = client.buscar_filmes(query)
 
+                resultados_ordenados = sorted(resultados_api, key=lambda f: f.get("popularity", 0), reverse=True)
+
                 filmes_formatados = []
-                for filme_api in resultados_api:
+                for filme_api in resultados_ordenados:
                     id_tmdb = filme_api.get("id")
 
                     servicos = []
