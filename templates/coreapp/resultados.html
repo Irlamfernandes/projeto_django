@@ -1,26 +1,32 @@
 {% extends "coreapp/base.html" %}
+{% load static %}
 
 {% block title %}
 Resultados da Busca - BuscarFilmes
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'coreapp/resultados.css' %}">
 {% endblock %}
 
 {% block content %}
 <h1>Resultados da Busca</h1>
 
 {% if filmes %}
-    <ul style="list-style: none; padding: 0;">
+    <ul class="lista-filmes">
         {% for filme in filmes %}
-            <li style="margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 20px;">
-                <img src="{{ filme.poster_url }}" alt="Poster de {{ filme.titulo }}" width="150" style="float:left; margin-right: 20px;">
-                <h2>{{ filme.titulo }}</h2>
-                <p>{{ filme.sinopse }}</p>
-                <p><strong>Disponível em:</strong></p>
-                <ul>
-                    {% for servico in filme.servicos %}
-                        <li>{{ servico }}</li>
-                    {% endfor %}
-                </ul>
-                <div style="clear: both;"></div>
+            <li class="filme-item">
+                <img src="{{ filme.poster_url }}" alt="Poster de {{ filme.titulo }}" class="poster">
+                <div class="info-filme">
+                    <h2>{{ filme.titulo }}</h2>
+                    <p>{{ filme.sinopse }}</p>
+                    <p><strong>Disponível em:</strong></p>
+                    <ul class="servicos">
+                        {% for servico in filme.servicos %}
+                            <li>{{ servico }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </li>
         {% endfor %}
     </ul>
