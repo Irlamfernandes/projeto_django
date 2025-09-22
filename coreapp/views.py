@@ -1,7 +1,7 @@
 
 from django.shortcuts import render
 from django.views import View
-from .services import TMDbClient, TMDbError
+from .services import TMDbClient, TMDbError, StreamingClient
 
 class BuscarFilmeView(View):
     def get(self, request):
@@ -15,18 +15,34 @@ class BuscarFilmeView(View):
         if query:
             try:
                 client = TMDbClient()
+                streaming_client = StreamingClient()
+
                 resultados_api = client.buscar_filmes(query)
-                
+
                 filmes_formatados = []
                 for filme_api in resultados_api:
+                    id_tmdb = filme_api.get("id")
+
+                    servicos = []
+                    try:
+                        provedores = streaming_client.buscar_filmes_streaming(id_tmdb)
+                        servicos = [
+                            {
+                                "nome": p.get("provider_name"),
+                                "logo_url": f"https://image.tmdb.org/t/p/w45{p.get('logo_path')}" if p.get("logo_path") else None
+                            }
+                            for p in provedores
+                        ]
+                    except TMDbError:
+                        servicos = []
+
                     filme_formatado = {
-                        'titulo': filme_api.get('title'),
-                        'sinopse': filme_api.get('overview'),
-                        'poster_url': f"https://image.tmdb.org/t/p/w500{filme_api.get('poster_path')}" if filme_api.get('poster_path') else None,
-                        'servicos': [] 
+                        "titulo": filme_api.get("title"),
+                        "sinopse": filme_api.get("overview"),
+                        "poster_url": f"https://image.tmdb.org/t/p/w500{filme_api.get('poster_path')}" if filme_api.get("poster_path") else None,
+                        "servicos": servicos,
                     }
                     filmes_formatados.append(filme_formatado)
-             
                 
                 context["filmes"] = filmes_formatados
 

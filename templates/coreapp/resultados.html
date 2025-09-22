@@ -23,7 +23,14 @@ Resultados da Busca - BuscarFilmes
                     <p><strong>Disponível em:</strong></p>
                     <ul class="servicos">
                         {% for servico in filme.servicos %}
-                            <li>{{ servico }}</li>
+                            <li>
+                                {% if servico.logo_url %}
+                                    <img src="{{ servico.logo_url }}" alt="{{ servico.nome }}">
+                                {% endif %}
+                            </li>
+                        {% empty %}
+                            <img src="{% static 'img/coreapp/utorrent.webp' %}" alt="">
+                            <img src="{% static 'img/coreapp/tpb.svg' %}" alt="">
                         {% endfor %}
                     </ul>
                 </div>
