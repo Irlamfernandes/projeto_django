@@ -1,6 +1,11 @@
 {% extends "coreapp/base.html" %}
-    
-{% block title %}Início — MundoFilme{% endblock %}
+{% load static %}
+
+{% block title %}Início — BuscarFilmes{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'coreapp/index.css' %}">
+{% endblock %}
 
 {% block content %}
     <h1>Bem-vindo!</h1>
@@ -8,7 +13,5 @@
     <form method="GET" action="{% url 'resultados' %}">
         <input type="text" name="filme" placeholder="Buscar filme..." required>
         <button type="submit">Buscar</button>
-
     </form>
 {% endblock %}
-

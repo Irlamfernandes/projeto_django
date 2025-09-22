@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}BuscarFilmes - Encontre seus filmes favoritos{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'coreapp/base.css' %}">
     {% block head %}
     {% endblock %}
 </head>
@@ -18,7 +18,7 @@
         </div>
         <nav>
             <ul>
-                <li><a href="">Início</a></li>
+                <li><a href="{% url 'index' %}">Início</a></li>
                 <li><a href="">Filmes Populares</a></li>
                 <li><a href="">Sobre</a></li>
             </ul>
