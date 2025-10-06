@@ -8,62 +8,69 @@ main {
     margin-top: 4rem;
 }
 
-/* Estilo do título */
-main h1 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    text-shadow: 0 0 0.6rem #232251;
-    color: #ffffff;
+.welcome-text {
+    font-size: 4rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-align: center;
+    background: linear-gradient(90deg, #ff3cac, #784ba0, #2b86c5);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 4s ease infinite, floatText 3s ease-in-out infinite;
+    margin-bottom: 40px;
 }
 
-/* Formulário */
+/* Form moderno */
 form {
     display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
 }
 
-/* Campo de texto */
-form input[type="text"] {
-    padding: 0.8rem 1rem;
-    font-size: 1rem;
+input[type="text"] {
+    padding: 12px 15px;
+    border-radius: 8px;
     border: none;
-    border-radius: 0.4rem;
+    width: 250px;
+    font-size: 16px;
     outline: none;
-    width: 18rem;
-    background-color: #1c1c29;
-    color: #ffffff;
-    box-shadow: 0 0 0.4rem #232251;
-    transition: all 0.3s ease;
 }
 
-form input[type="text"]::placeholder {
-    color: #b3b3b3;
-}
-
-form input[type="text"]:focus {
-    background-color: #2a2a40;
-    box-shadow: 0 0 0.8rem 0.2rem #3f3f72;
-}
-
-/* Botão de busca */
-form button {
-    padding: 0.8rem 1.6rem;
-    font-size: 1rem;
+button {
+    padding: 12px 20px;
+    border-radius: 8px;
     border: none;
-    border-radius: 0.4rem;
-    background: linear-gradient(90deg, #232251, #3f3f72);
-    color: #ffffff;
+    background: linear-gradient(45deg, #ff3cac, #784ba0, #2b86c5);
+    background-size: 300% 300%;
+    color: #fff;
+    font-weight: bold;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    font-size: 16px;
+    transition: transform 0.3s, background-position 0.5s;
+    animation: buttonGradient 4s ease infinite;
 }
 
-form button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 0.8rem 0.2rem #3f3f72;
+button:hover {
+    transform: scale(1.1);
 }
 
-form button:active {
-    transform: scale(0.97);
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Animação de leve flutuação */
+@keyframes floatText {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+}
+
+/* Animação do gradiente do botão */
+@keyframes buttonGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position:  0%  50%; }
+
 }

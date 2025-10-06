@@ -1,83 +1,158 @@
-html, body {
-    height: 100%;
+/* ====== RESET ====== */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ====== BODY ====== */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0f0f1a, #1a1a2e, #16213e);
+    background-size: 300% 300%;
+    animation: backgroundShift 15s ease infinite;
+    color: #ffffff;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: #0f0f1a;
+}
+
+/* Animação suave no fundo */
+@keyframes backgroundShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ====== HEADER ====== */
+header {
+    width: 100%;
+    background: rgba(20, 20, 40, 0.5);
+    backdrop-filter: blur(6px);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fadeInDown 1s ease;
+}
+
+/* Animação do header */
+@keyframes fadeInDown {
+    0% { opacity: 0; transform: translateY(-30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #ff3cac, #784ba0, #2b86c5);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 4s ease infinite;
+}
+
+header p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* ====== NAV ====== */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+nav a {
     color: #ffffff;
-    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    font-weight: 600;
+    position: relative;
+    transition: color 0.3s ease;
 }
 
-header div {
-    padding: 12px;
-    padding-bottom: 0;
-    text-align: center;
-    line-height: 8px;
+/* Efeito de linha neon animada */
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background: linear-gradient(90deg, #ff3cac, #784ba0, #2b86c5);
+    transition: width 0.4s ease;
 }
 
-header nav ul {
+nav a:hover::after {
+    width: 100%;
+}
+
+/* ====== MAIN ====== */
+main {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    list-style: none; 
-    margin: 0;
-    padding: 10px;
-    gap: 60px;
-}
-
-header nav li {
-    opacity: 0;
-    transform: translateY(-20px);
-    animation: fadeIn 0.8s forwards;
-}
-
-
-header nav li:nth-child(1) {
-    animation-delay: 0.2s;
-}
-header nav li:nth-child(2) {
-    animation-delay: 0.5s;
-}
-header nav li:nth-child(3) {
-    animation-delay: 0.8s;
-}
-
-header nav a {
-    text-decoration: none;
-    color: white;
-    padding: 5px 12px;
-    transition: all 0.3s ease;
-}
-
-header nav a:hover {
-    background-color:  #3f3f42;
-    box-shadow: 0 0 12px 5px#232251;
-    border-radius: 4px;
-}
-
-main {
-    flex: 1;
-    padding: 20px;
-    line-height: 10px;
-    margin-top: 20px;
-}
-
-
-footer {
-    background: linear-gradient(1deg, #000000, #232251);
-    padding: 1rem;
-    font-size: 0.9rem;
-    border-top: solid white 1px;
+    flex-direction: column;
     text-align: center;
+    padding: 40px 20px;
+    animation: fadeIn 1.5s ease;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ====== FOOTER ====== */
+footer {
+    background: rgba(10, 10, 25, 0.7);
+    backdrop-filter: blur(8px);
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fadeInUp 1.2s ease;
+}
+
+footer p:first-child {
+    color: #aaa;
+}
+
+footer p:last-child {
+    background: linear-gradient(90deg, #ff3cac, #784ba0, #2b86c5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ====== ANIMAÇÕES GLOBAIS ====== */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ====== RESPONSIVIDADE ====== */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    header h1 {
+        font-size: 1.8rem;
     }
 }
