@@ -8,10 +8,10 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Bem-vindo!</h1>
+    <h1 class="welcome-text">Bem-vindo!</h1>
 
     <form method="GET" action="{% url 'resultados' %}">
         <input type="text" name="filme" placeholder="Buscar filme..." required>
         <button type="submit">Buscar</button>
     </form>
-{% endblock %}
+{% endblock %}

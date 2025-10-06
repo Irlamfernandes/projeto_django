@@ -10,7 +10,7 @@ Resultados da Busca - BuscarFilmes
 {% endblock %}
 
 {% block content %}
-<h1>Resultados da Busca</h1>
+<h2>Resultados da Busca</h2>
 
 {% if filmes %}
     <ul class="lista-filmes">
@@ -19,7 +19,11 @@ Resultados da Busca - BuscarFilmes
                 <img src="{{ filme.poster_url }}" alt="Poster de {{ filme.titulo }}" class="poster">
                 <div class="info-filme">
                     <h2>{{ filme.titulo }}</h2>
-                    <p>{{ filme.sinopse }}</p>
+                    <div class="sinopse-container">
+                        <input type="checkbox" id="toggle-{{ forloop.counter }}" class="toggle-checkbox">
+                        <p class="sinopse">{{ filme.sinopse }}</p>
+                        <label for="toggle-{{ forloop.counter }}" class="toggle-label"></label>
+                    </div>
                     <p><strong>Disponível em:</strong></p>
                     <ul class="servicos">
                         {% for servico in filme.servicos %}
@@ -40,4 +44,4 @@ Resultados da Busca - BuscarFilmes
 {% else %}
     <p>Nenhum filme encontrado.</p>
 {% endif %}
-{% endblock %}
+{% endblock %}
