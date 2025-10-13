@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import BuscarFilmeView
+from .views import BuscarFilmeView,SobreView
 from django.views.generic import TemplateView
 
 urlpatterns = [
@@ -8,6 +8,6 @@ urlpatterns = [
     path('buscar/', BuscarFilmeView.as_view(), name='buscar'),
     path('', TemplateView.as_view(template_name='coreapp/index.html'), name='index'),
     path('index/', TemplateView.as_view(template_name='coreapp/index.html'), name='index'),
-    path('sobre/', SobreView.as_view(), name='sobre'),
+    path('sobre/', SobreView.as_view(template_name='coreapp/sobre.html'), name='sobre'),
 
 ]

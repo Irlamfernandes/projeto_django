@@ -52,3 +52,8 @@ class BuscarFilmeView(View):
                 context["erro"] = f"Ocorreu um erro ao buscar os filmes: {e}"
 
         return render(request, "coreapp/resultados.html", context) # 
+    
+class SobreView(View):
+    template_name = 'coreapp/sobre.html'
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
