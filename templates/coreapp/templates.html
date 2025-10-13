@@ -1,0 +1,19 @@
+{% extends "coreapp/base.html" %}
+
+{% block title %}Filmes Populares{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>Filmes Populares</h2>
+
+  <div class="filmes-lista">
+    {% for _ in placeholders %}
+      <div class="filme-card placeholder">
+        <div class="poster-placeholder"></div>
+        <div class="titulo-placeholder"></div>
+        <div class="sinopse-placeholder"></div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
