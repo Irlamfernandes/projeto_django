@@ -124,10 +124,6 @@ a:hover::after {
     transform: scale(1.05);
 }
 
-footer{
-    text-align: center;
-}
-
 /* ======= ANIMAÇÕES ======= */
 @keyframes fadeUp {
     from {
