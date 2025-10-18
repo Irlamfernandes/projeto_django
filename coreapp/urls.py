@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import BuscarFilmeView,SobreView, DetalheFilmeView
+from .views import BuscarFilmeView,SobreView, DetalheFilmeView, FilmesPopularesView
 from django.views.generic import TemplateView
 
 urlpatterns = [

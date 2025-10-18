@@ -134,3 +134,15 @@ class SobreView(View):
     template_name = 'coreapp/sobre.html'
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
+
+
+class FilmesPopularesView(View):
+    template_name = 'coreapp/filmes_populares.html'
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            "filmes": [], # Futuramente, isso será preenchido
+            "erro": None
+        }
+
+        return render(request, self.template_name, context)
