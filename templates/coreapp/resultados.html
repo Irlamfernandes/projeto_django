@@ -37,6 +37,7 @@ Resultados da Busca - BuscarFilmes
                             <img src="{% static 'img/coreapp/tpb.svg' %}" alt="">
                         {% endfor %}
                     </ul>
+                    <a href="/filme/{{ filme.id }}/" class="btn-mais-info">Mais informações</a>
                 </div>
             </li>
         {% endfor %}
@@ -44,4 +45,4 @@ Resultados da Busca - BuscarFilmes
 {% else %}
     <p>Nenhum filme encontrado.</p>
 {% endif %}
-{% endblock %}
+{% endblock %}
