@@ -10,5 +10,5 @@ urlpatterns = [
     path('index/', TemplateView.as_view(template_name='coreapp/index.html'), name='index'),
     path('sobre/', SobreView.as_view(template_name='coreapp/sobre.html'), name='sobre'),
     path('filme/<int:filme_id>/', DetalheFilmeView.as_view(), name='detalhe_filme'),
-
+    path('filmes_populares/', FilmesPopularesView.as_view(), name='filmes_populares')
 ]
