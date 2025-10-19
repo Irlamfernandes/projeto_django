@@ -111,12 +111,35 @@ a:hover::after {
     box-shadow: 0 0 1.5rem rgba(120, 120, 255, 0.5);
 }
 
+/* ======= NOME DO DESENVOLVEDOR ======= */
 .dev-card a {
     display: inline-block;
     color: #b3b3ff;
     font-weight: 600;
     text-decoration: none;
+    position: relative;
     transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Linha neon animada debaixo do nome */
+.dev-card a::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, #ff3cac, #784ba0, #2b86c5);
+    background-size: 300% 300%;
+    border-radius: 3px;
+    transition: width 0.4s ease;
+    animation: gradientMove 3s ease infinite;
+}
+
+/* Quando o mouse passa, a linha aparece com brilho */
+.dev-card a:hover::after {
+    width: 80%;
 }
 
 .dev-card a:hover {
@@ -124,27 +147,11 @@ a:hover::after {
     transform: scale(1.05);
 }
 
-/* ======= ANIMAÇÕES ======= */
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes floatIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95) translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
+/* ======= ANIMAÇÃO DO GRADIENTE ======= */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* ======= RESPONSIVIDADE ======= */

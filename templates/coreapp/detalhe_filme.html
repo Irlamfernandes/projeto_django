@@ -10,98 +10,106 @@
 {% endblock %}
 
 {% block content %}
-    {% if erro %}
-        <p class="erro">{{ erro }}</p>
-    {% elif filme %}
-        <div class="detalhes-container">
-            <div class="poster-container">
-                <img src="{{ filme.poster_url }}" alt="Poster de {{ filme.titulo }}" class="poster-detalhe">
-            </div>
-            <div class="info-container">
-                <h1>{{ filme.titulo }}</h1>
-                <p><strong>Sinopse:</strong> {{ filme.sinopse }}</p>
-                <p><strong>Data de Lançamento:</strong> {{ filme.data_lancamento }}</p>
-                <p><strong>Avaliação:</strong> {{ filme.avaliacao }}</p>
-                <p><strong>Gêneros:</strong> {{ filme.generos|join:", " }}</p>
-                <p><strong>Duração:</strong> {{ filme.duracao }} minutos</p>
+{% if erro %}
+    <p>{{ erro }}</p>
+{% elif filme %}
 
-                {% if filme.servicos %}
-                    <p><strong>Onde Assistir:</strong></p>
-                    <ul class="servicos">
-                        {% for servico in filme.servicos %}
-                            <li>
-                                {% if servico.logo_url %}
-                                    <img src="{{ servico.logo_url }}" alt="{{ servico.nome }}">
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+<!-- CONTAINER PRINCIPAL -->
+<div class="detalhes-container">
 
-                {% if filme.trailer_key %}
-                    <h2>Trailer</h2>
-                    <div class="trailer-container">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ filme.trailer_key }}" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                {% endif %}
+    <!-- Capa -->
+    <div class="poster-container">
+        <img src="{{ filme.poster_url }}" alt="Poster de {{ filme.titulo }}" class="poster-detalhe">
+    </div>
 
-                <h2>Elenco</h2>
-                <ul class="elenco-lista">
-                    {% for ator in filme.elenco|slice:":10" %}
-                        <li class="ator-item">
-                            <a href="#">
-                                {% if ator.foto_url %}
-                                    <img src="{{ ator.foto_url }}" alt="Foto de {{ ator.nome }}">
-                                {% endif %}
-                                <p>{{ ator.nome }} como {{ ator.personagem }}</p>
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
+    <!-- INFORMAÇÕES AO LADO DA CAPA -->
+    <div class="info-container">
+        <h1>{{ filme.titulo }}</h1>
+        <p class="sinopse"><strong>Sinopse:</strong> {{ filme.sinopse }}</p>
+        <p><strong>Data de Lançamento:</strong> {{ filme.data_lancamento }}</p>
+        <p><strong>Avaliação:</strong> {{ filme.avaliacao }}</p>
+        <p><strong>Gêneros:</strong> {{ filme.generos|join:", " }}</p>
+        <p><strong>Duração:</strong> {{ filme.duracao }} minutos</p>
 
-                {% if filme.recomendacoes %}
-                    <h2>Recomendações</h2>
-                    <ul class="recomendacoes-lista">
-                        {% for rec in filme.recomendacoes|slice:":10" %}
-                            <li class="recomendacao-item">
-                                <a href="{% url 'detalhe_filme' rec.id %}">
-                                    <img src="{{ rec.poster_url }}" alt="{{ rec.titulo }}">
-                                    <p>{{ rec.titulo }}</p>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+        {% if filme.servicos %}
+            <p><strong>Onde Assistir:</strong></p>
+            <ul class="servicos">
+                {% for servico in filme.servicos %}
+                    <li>
+                        <img src="{{ servico.logo_url }}" alt="{{ servico.nome }}">
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
 
-                {% if filme.imagens.backdrops %}
-                    <h2>Imagens</h2>
-                    <div class="imagens-container">
-                        {% for img_url in filme.imagens.backdrops|slice:":5" %}
-                            <img src="{{ img_url }}" class="img-backdrop">
-                        {% endfor %}
-                    </div>
-                {% endif %}
+<!-- TRAILER -->
+{% if filme.trailer_key %}
+    <h2 class="trailer-title">Trailer</h2>
+    <div class="trailer-container">
+        <iframe src="https://www.youtube.com/embed/{{ filme.trailer_key }}" frameborder="0" allowfullscreen></iframe>
+    </div>
+{% endif %}
 
-                {% if filme.avaliacoes %}
-                    <h2>Avaliações</h2>
-                    <ul class="avaliacoes-lista">
-                        {% for avaliacao in filme.avaliacoes|slice:":5" %}
-                            <li class="avaliacao-item">
-                                <div class="autor-info">
-                                    {% if avaliacao.avatar_url %}
-                                        <img src="{{ avaliacao.avatar_url }}" class="avatar">
-                                    {% endif %}
-                                    <p><strong>{{ avaliacao.autor }}</strong> (Nota: {{ avaliacao.nota|default:"N/A" }})</p>
-                                </div>
-                                <p>{{ avaliacao.conteudo|truncatewords:50 }}</p>
-                                <a href="{{ avaliacao.url }}" target="_blank">Ler avaliação completa</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
-        </div>
-    {% else %}
-        <p>Filme não encontrado.</p>
-    {% endif %}
+<!-- ELENCO -->
+<div class="elenco-container">
+    <h2>Elenco</h2>
+    <ul class="elenco-lista">
+        {% for ator in filme.elenco %}
+            <li class="ator-item">
+                <a href="#">
+                    <img src="{{ ator.foto_url }}" alt="Foto de {{ ator.nome }}">
+                    <p>{{ ator.nome }} como {{ ator.personagem }}</p>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- RECOMENDAÇÕES -->
+<div class="recomendacoes-container">
+    <h2>Recomendações</h2>
+    <ul class="recomendacoes-lista">
+        {% for rec in filme.recomendacoes %}
+            <li class="recomendacao-item">
+                <a href="{% url 'detalhe_filme' rec.id %}">
+                    <img src="{{ rec.poster_url }}" alt="{{ rec.titulo }}">
+                    <p>{{ rec.titulo }}</p>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- IMAGENS -->
+{% if filme.imagens.backdrops %}
+    <h2>Imagens</h2>
+    <div class="imagens-container">
+        {% for img_url in filme.imagens.backdrops %}
+            <img src="{{ img_url }}" class="img-backdrop">
+        {% endfor %}
+    </div>
+{% endif %}
+
+<!-- AVALIAÇÕES -->
+{% if filme.avaliacoes %}
+    <h2>Avaliações</h2>
+    <ul class="avaliacoes-lista">
+        {% for avaliacao in filme.avaliacoes %}
+            <li class="avaliacao-item">
+                <div class="autor-info">
+                    <img src="{{ avaliacao.avatar_url }}" class="avatar">
+                    <p><strong>{{ avaliacao.autor }}</strong> (Nota: {{ avaliacao.nota|default:"N/A" }})</p>
+                </div>
+                <p>{{ avaliacao.conteudo|truncatewords:50 }}</p>
+                <a href="{{ avaliacao.url }}" target="_blank">Ler avaliação completa</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% else %}
+    <p>Filme não encontrado.</p>
+{% endif %}
 {% endblock %}
