@@ -1,0 +1,268 @@
+/* ====== DETALHES DO FILME ====== */
+.detalhes-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 40px;
+    background: rgba(20, 20, 40, 0.6);
+    backdrop-filter: blur(8px);
+    border-radius: 15px;
+    margin: 40px auto;
+    max-width: 1200px;
+    animation: fadeIn 1s ease;
+    flex-wrap: wrap;
+}
+
+/* Capa */
+.poster-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.poster-detalhe {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.poster-detalhe:hover {
+    transform: scale(1.05);
+}
+
+/* Informações */
+.info-container {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: #fff;
+}
+
+.info-container strong {
+    color: yellow;
+}
+
+.info-container p {
+    text-align: justify;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.sinopse {
+    margin-bottom: 12px;
+}
+
+/* ====== TÍTULOS ====== */
+.info-container h1, h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #ff3cac, #784ba0, #2b86c5);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 4s ease infinite;
+    margin-bottom: 12px;
+    margin-top: 50px;
+}
+
+.info-container h1 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* ====== ONDE ASSISTIR ====== */
+.servicos {
+    display: flex;
+    gap: 15px;
+    margin: 10px 0 20px 0;
+    list-style: none;
+}
+
+.servicos li img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: 6px;
+    transition: transform 0.3s ease;
+}
+
+.servicos li img:hover {
+    transform: scale(1.2);
+}
+
+/* ====== TRAILER ====== */
+.trailer-title {
+    font-size: 2rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #ff3cac, #784ba0, #2b86c5);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 4s ease infinite;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 60px;
+}
+
+.trailer-container {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.trailer-container iframe {
+    width: 100%;
+    height: 450px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* ====== ELENCO E RECOMENDAÇÕES ====== */
+.elenco-container,
+.recomendacoes-container {
+    margin-top: 40px;
+}
+
+.elenco-lista,
+.recomendacoes-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style: none;
+    justify-content: center;
+}
+
+.ator-item,
+.recomendacao-item {
+    background: rgba(30, 30, 50, 0.6);
+    border-radius: 12px;
+    width: 180px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    padding: 1px;
+}
+
+.ator-item img,
+.recomendacao-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.ator-item p,
+.recomendacao-item p {
+    margin: 10px 0;
+    font-size: 0.9rem;
+    color: #fff;
+    font-weight: 500;
+}
+
+/* Hover cards */
+.ator-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 60, 172, 0.5);
+}
+
+.recomendacao-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(43, 134, 197, 0.5);
+}
+
+/* Links (efeito sutil e sem sublinhado) */
+.ator-item a,
+.recomendacao-item a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+.ator-item a:hover p {
+    color: #ff3cac;
+}
+
+.recomendacao-item a:hover p {
+    color: #2b86c5;
+}
+
+/* ====== IMAGENS ====== */
+.imagens-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.img-backdrop {
+    width: 250px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* ====== AVALIAÇÕES ====== */
+.avaliacoes-lista {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.avaliacao-item {
+    width: 90%;
+    margin: auto;
+    background: rgba(30, 30, 50, 0.6);
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.autor-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.autor-info .avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.avaliacao-item p {
+    line-height: 1.4;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+}
+
+.avaliacao-item a {
+    color: #ff3cac;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.avaliacao-item a:hover {
+    text-decoration: underline;
+}
+
+/* ====== ANIMAÇÕES ====== */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
