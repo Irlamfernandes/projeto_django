@@ -48,6 +48,22 @@ class TMDbClient:
         except requests.exceptions.RequestException as e:
             raise TMDbError(f"Erro na requisição: {e}")
 
+    def filmes_populares(self, page: int = 1):
+        """
+        Retorna filmes populares, aceitando página para carregamento incremental.
+        """
+        params = {
+            "api_key": self.api_key,
+            "language": self.language,
+            "page": page,
+        }
+        try:
+            resp = self.session.get(f"{self.base_url}/movie/popular", params=params, timeout=10)
+            resp.raise_for_status()
+            return resp.json().get("results", [])
+        except requests.exceptions.RequestException as e:
+            raise TMDbError(f"Erro ao buscar filmes populares: {e}")
+
 
 class StreamingClient:
     """

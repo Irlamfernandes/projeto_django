@@ -3,17 +3,91 @@
 {% block title %}Filmes Populares{% endblock %}
 
 {% block content %}
-<div class="container">
-  <h2>Filmes Populares</h2>
+<h2>Filmes Populares</h2>
 
-  <div class="filmes-lista">
-    {% for _ in placeholders %}
-      <div class="filme-card placeholder">
-        <div class="poster-placeholder"></div>
-        <div class="titulo-placeholder"></div>
-        <div class="sinopse-placeholder"></div>
-      </div>
-    {% endfor %}
+{% if erro %}
+  <p style="color: red;">{{ erro }}</p>
+{% endif %}
+
+<ul id="filmes-lista">
+  {% for filme in filmes %}
+    <li>
+      {% if filme.poster_url %}
+        <img src="{{ filme.poster_url }}" alt="{{ filme.titulo }}">
+      {% endif %}
+      <h2>{{ filme.titulo }}</h2>
+      <p>{{ filme.sinopse }}</p>
+
+      <p>Disponível em:</p>
+      <ul>
+        {% for servico in filme.servicos %}
+          <li>
+            {% if servico.logo_url %}
+              <a href="{{ servico.link }}" target="_blank">
+                <img src="{{ servico.logo_url }}" alt="{{ servico.nome }}">
+              </a>
+            {% endif %}
+          </li>
+        {% empty %}
+          <li>Não disponível em streaming</li>
+        {% endfor %}
+      </ul>
+
+      <a href="{% url 'detalhe_filme' filme.id %}">Mais informações</a>
+    </li>
+  {% endfor %}
+</ul>
+
+{% if filmes %}
+  <div id="carregar-mais-container">
+    <button id="carregar-mais-btn">Carregar mais</button>
   </div>
-</div>
+{% endif %}
+
+<script>
+  let paginaAtual = {{ page|default:1 }};
+  const btnCarregarMais = document.getElementById("carregar-mais-btn");
+  const listaFilmes = document.getElementById("filmes-lista");
+
+  btnCarregarMais.addEventListener("click", function() {
+    paginaAtual += 1;
+    btnCarregarMais.disabled = true;
+    btnCarregarMais.textContent = "Carregando...";
+
+    fetch(`?page=${paginaAtual}`, {
+      headers: { "X-Requested-With": "XMLHttpRequest" }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.filmes && data.filmes.length > 0) {
+        data.filmes.forEach(filme => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            ${filme.poster_url ? `<img src="${filme.poster_url}" alt="${filme.titulo}">` : ""}
+            <h2>${filme.titulo}</h2>
+            <p>${filme.sinopse}</p>
+            <p>Disponível em:</p>
+            <ul>
+              ${filme.servicos.map(s => s.logo_url ? `<li><a href="${s.link}" target="_blank"><img src="${s.logo_url}" alt="${s.nome}"></a></li>` : "").join("")}
+            </ul>
+            <a href="/filme/${filme.id}/">Mais informações</a>
+          `;
+          listaFilmes.appendChild(li);
+        });
+      }
+
+      if (!data.tem_mais || data.filmes.length === 0) {
+        document.getElementById("carregar-mais-container").remove();
+      } else {
+        btnCarregarMais.disabled = false;
+        btnCarregarMais.textContent = "Carregar mais";
+      }
+    })
+    .catch(error => {
+      console.error("Erro ao carregar mais filmes:", error);
+      btnCarregarMais.disabled = false;
+      btnCarregarMais.textContent = "Carregar mais";
+    });
+  });
+</script>
 {% endblock %}
