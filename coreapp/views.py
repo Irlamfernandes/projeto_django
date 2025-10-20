@@ -2,6 +2,7 @@
 from django.shortcuts import render
 from django.views import View
 from .services import TMDbClient, TMDbError, StreamingClient
+from .rotas_streaming import STREAMING_LINKS_BY_NAME
 
 class BuscarFilmeView(View):
     def get(self, request):
@@ -28,13 +29,14 @@ class BuscarFilmeView(View):
                     servicos = []
                     try:
                         provedores = streaming_client.buscar_filmes_streaming(id_tmdb)
-                        servicos = [
-                            {
-                                "nome": p.get("provider_name"),
-                                "logo_url": f"https://image.tmdb.org/t/p/w45{p.get('logo_path')}" if p.get("logo_path") else None
-                            }
-                            for p in provedores
-                        ]
+                        for p in provedores:
+                            provider_name = p.get("provider_name")
+                            link = STREAMING_LINKS_BY_NAME.get(provider_name, "  # ")
+                            servicos.append({
+                                "nome": provider_name,
+                                "logo_url": f"https://image.tmdb.org/t/p/w45{p.get('logo_path')}" if p.get("logo_path") else None,
+                                "link": link,
+                            })
                     except TMDbError:
                         servicos = []
 
@@ -71,7 +73,8 @@ class DetalheFilmeView(View):
                 servicos = [
                     {
                         "nome": p.get("provider_name"),
-                        "logo_url": f"https://image.tmdb.org/t/p/w45{p.get('logo_path')}" if p.get("logo_path") else None
+                        "logo_url": f"https://image.tmdb.org/t/p/w45{p.get('logo_path')}" if p.get("logo_path") else None,
+                        "link": STREAMING_LINKS_BY_NAME.get(p.get("provider_name"), "  # ")
                     }
                     for p in provedores
                 ]

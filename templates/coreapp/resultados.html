@@ -29,7 +29,9 @@ Resultados da Busca - BuscarFilmes
                         {% for servico in filme.servicos %}
                             <li>
                                 {% if servico.logo_url %}
-                                    <img src="{{ servico.logo_url }}" alt="{{ servico.nome }}">
+                                    <a href="{{ servico.link }}" target="_blank">
+                                        <img src="{{ servico.logo_url }}" alt="{{ servico.nome }}">
+                                    </a>
                                 {% endif %}
                             </li>
                         {% empty %}

@@ -32,15 +32,22 @@
         <p><strong>Duração:</strong> {{ filme.duracao }} minutos</p>
 
         {% if filme.servicos %}
-            <p><strong>Onde Assistir:</strong></p>
-            <ul class="servicos">
-                {% for servico in filme.servicos %}
-                    <li>
-                        <img src="{{ servico.logo_url }}" alt="{{ servico.nome }}">
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+                    <p><strong>Onde Assistir:</strong></p>
+                    <ul class="servicos">
+                        {% for servico in filme.servicos %}
+                            <li>
+                                {% if servico.logo_url %}
+                                    <a href="{{ servico.link }}" target="_blank">
+                                        <img src="{{ servico.logo_url }}" alt="{{ servico.nome }}">
+                                    </a>
+                                {% endif %}
+                            </li>
+                        {% empty %}
+                            <img src="{% static 'img/coreapp/utorrent.webp' %}" alt="">
+                            <img src="{% static 'img/coreapp/tpb.svg' %}" alt="">
+                        {% endfor %}
+                    </ul>
+                {% endif %}
     </div>
 </div>
 
