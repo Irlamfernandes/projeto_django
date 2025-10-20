@@ -35,13 +35,11 @@
                     <p><strong>Onde Assistir:</strong></p>
                     <ul class="servicos">
                         {% for servico in filme.servicos %}
-                            <li>
-                                {% if servico.logo_url %}
-                                    <a href="{{ servico.link }}" target="_blank">
-                                        <img src="{{ servico.logo_url }}" alt="{{ servico.nome }}">
-                                    </a>
-                                {% endif %}
-                            </li>
+                            {% if servico.logo_url %}
+                                <li>
+                                    <a href="{{ servico.link }}" target="_blank"><img src="{{ servico.logo_url }}" alt="{{ servico.nome }}"></a>
+                                </li>
+                            {% endif %}
                         {% empty %}
                             <img src="{% static 'img/coreapp/utorrent.webp' %}" alt="">
                             <img src="{% static 'img/coreapp/tpb.svg' %}" alt="">
@@ -64,12 +62,14 @@
     <h2>Elenco</h2>
     <ul class="elenco-lista">
         {% for ator in filme.elenco %}
-            <li class="ator-item">
-                <a href="#">
-                    <img src="{{ ator.foto_url }}" alt="Foto de {{ ator.nome }}">
-                    <p>{{ ator.nome }} como {{ ator.personagem }}</p>
-                </a>
-            </li>
+            {% if ator.foto_url %}
+                <li class="ator-item">
+                    <a href="#">
+                        <img src="{{ ator.foto_url }}" alt="Foto de {{ ator.nome }}">
+                        <p>{{ ator.nome }} como {{ ator.personagem }}</p>
+                    </a>
+                </li>
+            {% endif %}
         {% endfor %}
     </ul>
 </div>
@@ -79,12 +79,14 @@
     <h2>Recomendações</h2>
     <ul class="recomendacoes-lista">
         {% for rec in filme.recomendacoes %}
-            <li class="recomendacao-item">
-                <a href="{% url 'detalhe_filme' rec.id %}">
-                    <img src="{{ rec.poster_url }}" alt="{{ rec.titulo }}">
-                    <p>{{ rec.titulo }}</p>
-                </a>
-            </li>
+            {% if rec.poster_url %}
+                <li class="recomendacao-item">
+                    <a href="{% url 'detalhe_filme' rec.id %}">
+                        <img src="{{ rec.poster_url }}" alt="{{ rec.titulo }}">
+                        <p>{{ rec.titulo }}</p>
+                    </a>
+                </li>
+            {% endif %}
         {% endfor %}
     </ul>
 </div>
@@ -94,7 +96,9 @@
     <h2>Imagens</h2>
     <div class="imagens-container">
         {% for img_url in filme.imagens.backdrops %}
-            <img src="{{ img_url }}" class="img-backdrop">
+            {% if img_url %}
+                <img src="{{ img_url }}" class="img-backdrop">
+            {% endif %}
         {% endfor %}
     </div>
 {% endif %}
@@ -105,10 +109,12 @@
     <ul class="avaliacoes-lista">
         {% for avaliacao in filme.avaliacoes %}
             <li class="avaliacao-item">
-                <div class="autor-info">
-                    <img src="{{ avaliacao.avatar_url }}" class="avatar">
-                    <p><strong>{{ avaliacao.autor }}</strong> (Nota: {{ avaliacao.nota|default:"N/A" }})</p>
-                </div>
+                {% if avaliacao.avatar_url %}
+                    <div class="autor-info">
+                        <img src="{{ avaliacao.avatar_url }}" class="avatar">
+                        <p><strong>{{ avaliacao.autor }}</strong> (Nota: {{ avaliacao.nota|default:"N/A" }})</p>
+                    </div>
+                {% endif %}
                 <p>{{ avaliacao.conteudo|truncatewords:50 }}</p>
                 <a href="{{ avaliacao.url }}" target="_blank">Ler avaliação completa</a>
             </li>
