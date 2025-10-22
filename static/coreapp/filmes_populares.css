@@ -1,0 +1,227 @@
+/* ======= TÍTULO PRINCIPAL ======= */
+h2 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #b8b8ff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 3rem;
+    margin-bottom: 5rem;
+    opacity: 0;
+    animation: titleCinematic 2s ease forwards;
+}
+
+/* Animação cinematográfica para o título */
+@keyframes titleCinematic {
+    0% { opacity: 0; transform: translateY(-50px) scale(0.8); filter: blur(5px); }
+    100% { opacity: 1; transform: translateY(10px) scale(1.05); filter: blur(0); }
+}
+
+/* ======= NAV DE CATEGORIAS ======= */
+#categorias-nav {
+    width: 100%;
+    margin-bottom: 2rem;
+    padding: 10px 0;
+    background: rgba(20, 20, 40, 0.5);
+    border-radius: 10px;
+    overflow-x: auto;
+}
+
+#categorias-nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0 1rem;
+}
+
+#categorias-nav li a {
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease, box-shadow 0.3s ease;
+    white-space: nowrap;
+    display: block;
+}
+
+#categorias-nav li a:hover {
+    background-color: rgba(120, 75, 160, 0.25);
+    border-color: #ff3cac;
+    box-shadow: 0 0 10px rgba(255, 60, 172, 0.5);
+}
+
+#categorias-nav li a.ativo {
+    background: linear-gradient(90deg, #ff3cac, #784ba0);
+    color: #fff;
+    border-color: #2b86c5;
+    box-shadow: 0 0 12px rgba(255, 60, 172, 0.8);
+    transform: scale(1.1);
+}
+
+/* ======= LISTAGEM DE FILMES ======= */
+#filmes-lista {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    list-style: none;
+    max-width: 1400px;
+    margin: 0 auto 3rem;
+    padding: 2rem;
+    background: rgba(0,0,0,0.2);
+    border-radius: 15px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+
+/* ======= CARD DE FILME ======= */
+#filmes-lista li {
+    background: linear-gradient(145deg, #181828, #0f0f1a);
+    border-radius: 1rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.8);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: cardFadeIn 0.8s ease forwards;
+    justify-content: space-between;
+    min-height: 400px;
+}
+
+/* Staggered animation via nth-child */
+#filmes-lista li:nth-child(1) { animation-delay: 0.1s; }
+#filmes-lista li:nth-child(2) { animation-delay: 0.2s; }
+#filmes-lista li:nth-child(3) { animation-delay: 0.3s; }
+#filmes-lista li:nth-child(4) { animation-delay: 0.4s; }
+#filmes-lista li:nth-child(5) { animation-delay: 0.5s; }
+#filmes-lista li:nth-child(6) { animation-delay: 0.6s; }
+/* ...adicione mais se precisar */
+
+/* Hover cinematográfico */
+#filmes-lista li:hover {
+    transform: translateY(-10px) rotateX(5deg) rotateY(3deg) scale(1.06);
+    box-shadow: 0 0 3rem rgba(100, 100, 255, 0.7), 0 0 10px rgba(255, 60, 172, 0.5);
+}
+
+/* ======= POSTER ======= */
+#filmes-lista li img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.8rem;
+    box-shadow: 0 0 1.5rem rgba(0,0,0,0.7);
+    margin-bottom: 1rem;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    object-fit: cover;
+}
+
+/* ======= TÍTULO DO FILME ======= */
+#filmes-lista li h2 {
+    margin: 0 0 0.6rem;
+    font-size: 1.3rem;
+    background: linear-gradient(90deg, #b0b0ff, #e0e0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: titleGlow 2s ease infinite alternate;
+    opacity: 0;
+    animation: titleAppear 1s forwards;
+}
+
+/* Animação de aparecer para títulos dos filmes */
+@keyframes titleAppear {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Glow sutil */
+@keyframes titleGlow {
+    0% { text-shadow: 0 0 4px #b0b0ff; }
+    50% { text-shadow: 0 0 8px #e0e0ff; }
+    100% { text-shadow: 0 0 4px #b0b0ff; }
+}
+
+/* ======= BOTÃO "MAIS INFORMAÇÕES" ======= */
+#filmes-lista li a {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.6rem 1.4rem;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #ff3cac, #784ba0, #2b86c5);
+    background-size: 300% 300%;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 12px rgba(120, 120, 255, 0.4);
+    animation: gradientMove 4s ease infinite;
+}
+
+#filmes-lista li a:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 0 25px rgba(180, 100, 255, 0.7);
+}
+
+#filmes-lista li a:active {
+    transform: scale(0.97);
+    box-shadow: 0 0 10px rgba(150, 80, 255, 0.5);
+}
+
+/* ======= CARD APARECENDO ======= */
+@keyframes cardFadeIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ======= ANIMAÇÕES ======= */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ======= BOTÃO CARREGAR MAIS ======= */
+#carregar-mais-container { width: 100%; text-align: center; margin: 40px 0; }
+
+#carregar-mais-btn {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(90deg, #ff3cac, #784ba0);
+    border: none;
+    border-radius: 25px;
+    padding: 12px 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(255,60,172,0.5);
+}
+
+#carregar-mais-btn:hover:not(:disabled) {
+    background: linear-gradient(90deg, #784ba0, #2b86c5);
+    box-shadow: 0 0 25px rgba(43,134,197,0.7);
+    transform: translateY(-2px);
+}
+
+#carregar-mais-btn:disabled {
+    background: #444;
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.7;
+}
+
+/* ======= RESPONSIVIDADE ======= */
+@media (max-width: 1024px) { #filmes-lista { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { 
+    #filmes-lista { grid-template-columns: repeat(2, 1fr); } 
+    #filmes-lista li img { max-width: 100%; } 
+    h2 { font-size: 1.6rem; } 
+}
+@media (max-width: 480px) { #filmes-lista { grid-template-columns: 1fr; } }

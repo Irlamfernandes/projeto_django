@@ -12,8 +12,8 @@ section {
 }
 
 section:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 0 2rem rgba(100, 100, 255, 0.5);
+    transform: translateY(-10px) rotateX(5deg) rotateY(3deg) scale(1.02);
+    box-shadow: 0 0 3rem rgba(100, 100, 255, 0.7), 0 0 10px rgba(255, 60, 172, 0.5);
 }
 
 /* ======= TÍTULOS ======= */

@@ -64,12 +64,11 @@
         {% for ator in filme.elenco %}
             {% if ator.foto_url %}
                 <li class="ator-item">
-                    <a href="#">
-                        <img src="{{ ator.foto_url }}" alt="Foto de {{ ator.nome }}">
-                        <p>{{ ator.nome }} como {{ ator.personagem }}</p>
-                    </a>
-                </li>
-            {% endif %}
+                    <img src="{{ ator.foto_url }}" alt="Foto de {{ ator.nome }}">
+                    <p>{{ ator.nome }} como {{ ator.personagem }}</p>
+                </a>
+            </li>
+        {% endif %}
         {% endfor %}
     </ul>
 </div>

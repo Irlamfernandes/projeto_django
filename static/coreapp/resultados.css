@@ -1,14 +1,21 @@
 /* ======= TÍTULO PRINCIPAL ======= */
 h2 {
     text-align: center;
-    font-size: 1.4rem;
-    font-weight: 500;
+    font-size: 2rem;
+    font-weight: 700;
     color: #b8b8ff;
     letter-spacing: 2px;
     text-transform: uppercase;
-    margin-bottom: 2rem;
-    opacity: 0.9;
-    animation: fadeUp 1.2s ease;
+    margin-top: 3rem;
+    margin-bottom: 5rem;
+    opacity: 0;
+    animation: titleCinematic 2s ease forwards;
+}
+
+/* Animação cinematográfica para o título */
+@keyframes titleCinematic {
+    0% { opacity: 0; transform: translateY(-50px) scale(0.8); filter: blur(5px); }
+    100% { opacity: 1; transform: translateY(10px) scale(1.05); filter: blur(0); }
 }
 
 /* ======= LISTAGEM DE FILMES ======= */
@@ -40,8 +47,8 @@ h2 {
 }
 
 .filme-item:hover {
-    transform: translateY(-8px) rotate3d(1, 1, 0, 5deg) scale(1.03);
-    box-shadow: 0 0 2rem rgba(100, 100, 255, 0.5);
+    transform: translateY(-10px) rotateX(5deg) rotateY(3deg) scale(1.06);
+    box-shadow: 0 0 3rem rgba(100, 100, 255, 0.7), 0 0 10px rgba(255, 60, 172, 0.5);
 }
 
 /* ======= POSTER ======= */
@@ -57,6 +64,11 @@ h2 {
 /* ======= INFORMAÇÕES ======= */
 .info-filme {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* botão fica sempre embaixo */
+    align-items: center;
+    width: 100%;
     color: #dcdcdc;
 }
 
