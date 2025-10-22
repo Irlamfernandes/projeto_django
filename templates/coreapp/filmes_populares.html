@@ -1,9 +1,26 @@
 {% extends "coreapp/base.html" %}
+{% load static %}
 
-{% block title %}Filmes Populares{% endblock %}
+{% block title %}{{ categoria_titulo }}{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'coreapp/filmes_populares.css' %}">
+{% endblock %}
 
 {% block content %}
-<h2>Filmes Populares</h2>
+<nav id="categorias-nav">
+  <ul>
+    {% for slug, info in categorias.items %}
+      <li>
+        <a href="?categoria={{ slug }}" class="{% if slug == categoria_slug %}ativo{% endif %}">
+          {{ info.titulo }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>
+
+<h2>{{ categoria_titulo }}</h2>
 
 {% if erro %}
   <p style="color: red;">{{ erro }}</p>
@@ -11,34 +28,19 @@
 
 <ul id="filmes-lista">
   {% for filme in filmes %}
-    <li>
-      {% if filme.poster_url %}
+    {% if filme.poster_url %}
+      <li>
         <img src="{{ filme.poster_url }}" alt="{{ filme.titulo }}">
-      {% endif %}
-      <h2>{{ filme.titulo }}</h2>
-      <p>{{ filme.sinopse }}</p>
-
-      <p>Disponível em:</p>
-      <ul>
-        {% for servico in filme.servicos %}
-          <li>
-            {% if servico.logo_url %}
-              <a href="{{ servico.link }}" target="_blank">
-                <img src="{{ servico.logo_url }}" alt="{{ servico.nome }}">
-              </a>
-            {% endif %}
-          </li>
-        {% empty %}
-          <li>Não disponível em streaming</li>
-        {% endfor %}
-      </ul>
-
-      <a href="{% url 'detalhe_filme' filme.id %}">Mais informações</a>
-    </li>
+        <h2>{{ filme.titulo }}</h2>
+        {# Sinopse e plataformas foram removidas #}
+        
+        <a href="{% url 'detalhe_filme' filme.id %}">Mais informações</a>
+      </li>
+    {% endif %}
   {% endfor %}
 </ul>
 
-{% if filmes %}
+{% if filmes and tem_mais %}
   <div id="carregar-mais-container">
     <button id="carregar-mais-btn">Carregar mais</button>
   </div>
@@ -46,48 +48,57 @@
 
 <script>
   let paginaAtual = {{ page|default:1 }};
+  const categoriaAtual = "{{ categoria_slug }}"; 
   const btnCarregarMais = document.getElementById("carregar-mais-btn");
   const listaFilmes = document.getElementById("filmes-lista");
+  const containerCarregarMais = document.getElementById("carregar-mais-container");
 
-  btnCarregarMais.addEventListener("click", function() {
-    paginaAtual += 1;
-    btnCarregarMais.disabled = true;
-    btnCarregarMais.textContent = "Carregando...";
+  if (btnCarregarMais) {
+    btnCarregarMais.addEventListener("click", function() {
+      paginaAtual += 1;
+      btnCarregarMais.disabled = true;
+      btnCarregarMais.textContent = "Carregando...";
 
-    fetch(`?page=${paginaAtual}`, {
-      headers: { "X-Requested-With": "XMLHttpRequest" }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.filmes && data.filmes.length > 0) {
-        data.filmes.forEach(filme => {
-          const li = document.createElement("li");
-          li.innerHTML = `
-            ${filme.poster_url ? `<img src="${filme.poster_url}" alt="${filme.titulo}">` : ""}
-            <h2>${filme.titulo}</h2>
-            <p>${filme.sinopse}</p>
-            <p>Disponível em:</p>
-            <ul>
-              ${filme.servicos.map(s => s.logo_url ? `<li><a href="${s.link}" target="_blank"><img src="${s.logo_url}" alt="${s.nome}"></a></li>` : "").join("")}
-            </ul>
-            <a href="/filme/${filme.id}/">Mais informações</a>
-          `;
-          listaFilmes.appendChild(li);
-        });
-      }
+      // A requisição AJAX envia a categoria e a página
+      const url = `?page=${paginaAtual}&categoria=${categoriaAtual}`;
+      
+      fetch(url, {
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.filmes && data.filmes.length > 0) {
+          data.filmes.forEach(filme => {
+            if (filme.poster_url) {
+              const li = document.createElement("li");
+              
+              // HTML simplificado (sem sinopse/serviços)
+              li.innerHTML = `
+                <img src="${filme.poster_url}" alt="${filme.titulo}">
+                <h2>${filme.titulo}</h2>
+                <a href="{% url 'detalhe_filme' 0 %}".replace('/0/', '/' + filme.id + '/')>Mais informações</a>
+              `;
+              listaFilmes.appendChild(li);
+            }
+          });
+        }
 
-      if (!data.tem_mais || data.filmes.length === 0) {
-        document.getElementById("carregar-mais-container").remove();
-      } else {
+        let temMais = data.tem_mais;
+
+        if (!temMais || data.filmes.length === 0) {
+          // Remove o botão se não houver mais filmes para carregar
+          if (containerCarregarMais) containerCarregarMais.remove();
+        } else {
+          btnCarregarMais.disabled = false;
+          btnCarregarMais.textContent = "Carregar mais";
+        }
+      })
+      .catch(error => {
+        console.error("Erro ao carregar mais filmes:", error);
         btnCarregarMais.disabled = false;
         btnCarregarMais.textContent = "Carregar mais";
-      }
-    })
-    .catch(error => {
-      console.error("Erro ao carregar mais filmes:", error);
-      btnCarregarMais.disabled = false;
-      btnCarregarMais.textContent = "Carregar mais";
+      });
     });
-  });
+  }
 </script>
 {% endblock %}

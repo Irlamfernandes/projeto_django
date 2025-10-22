@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 import requests
+from datetime import date
 
 load_dotenv()
 
@@ -48,6 +49,7 @@ class TMDbClient:
             raise TMDbError(f"Erro na requisição: {e}")
 
     def filmes_populares(self, page: int = 1):
+        """ Retorna filmes populares. """
         params = {
             "api_key": self.api_key,
             "language": self.language,
@@ -59,6 +61,63 @@ class TMDbClient:
             return resp.json().get("results", [])
         except requests.exceptions.RequestException as e:
             raise TMDbError(f"Erro ao buscar filmes populares: {e}")
+
+    def top_rated_filmes(self, page: int = 1):
+        """ Retorna filmes com melhor avaliação (Top Rated). """
+        params = {
+            "api_key": self.api_key,
+            "language": self.language,
+            "page": page,
+        }
+        try:
+            resp = self.session.get(f"{self.base_url}/movie/top_rated", params=params, timeout=10)
+            resp.raise_for_status()
+            return resp.json().get("results", [])
+        except requests.exceptions.RequestException as e:
+            raise TMDbError(f"Erro ao buscar filmes Top Rated: {e}")
+
+    def filmes_lancamentos(self, page: int = 1):
+        """ Retorna filmes que estão 'Próximos' de serem lançados (Upcoming). """
+        params = {
+            "api_key": self.api_key,
+            "language": self.language,
+            "page": page,
+        }
+        try:
+            resp = self.session.get(f"{self.base_url}/movie/upcoming", params=params, timeout=10)
+            resp.raise_for_status()
+            return resp.json().get("results", [])
+        except requests.exceptions.RequestException as e:
+            raise TMDbError(f"Erro ao buscar filmes de Lançamentos (Upcoming): {e}")
+
+    def filmes_now_playing(self, page: int = 1):
+        """ Retorna filmes que estão 'Nos Cinemas' (Now Playing). """
+        params = {
+            "api_key": self.api_key,
+            "language": self.language,
+            "page": page,
+            "region": "BR",
+        }
+        try:
+            resp = self.session.get(f"{self.base_url}/movie/now_playing", params=params, timeout=10)
+            resp.raise_for_status()
+            return resp.json().get("results", [])
+        except requests.exceptions.RequestException as e:
+            raise TMDbError(f"Erro ao buscar filmes Nos Cinemas: {e}")
+
+    def filmes_trending_week(self, page: int = 1):
+        """ Retorna filmes em alta na semana (Mais Vistos). """
+        params = {
+            "api_key": self.api_key,
+            "language": self.language,
+            "page": page,
+        }
+        try:
+            resp = self.session.get(f"{self.base_url}/trending/movie/week", params=params, timeout=10)
+            resp.raise_for_status()
+            return resp.json().get("results", [])
+        except requests.exceptions.RequestException as e:
+            raise TMDbError(f"Erro ao buscar filmes em Alta (Semana): {e}")
 
 
 class StreamingClient:
