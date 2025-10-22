@@ -1,19 +1,18 @@
+import os
+from dotenv import load_dotenv
 import requests
 
-API_KEY = "6f56ba9c0c8541e4d886842f2bd2b06d"
+load_dotenv()
+
+API_KEY = os.getenv("TMDB_API_KEY")
 BASE_URL = "https://api.themoviedb.org/3"
 
 
 class TMDbError(Exception):
-    """Exceção personalizada para erros relacionados à API do TMDb."""
     pass
 
 
 class TMDbClient:
-    """
-    Cliente para interagir com a API do TMDb.
-    """
-
     def __init__(self, api_key=API_KEY, base_url=BASE_URL, language="pt-BR"):
         self.api_key = api_key
         self.base_url = base_url
@@ -49,9 +48,6 @@ class TMDbClient:
             raise TMDbError(f"Erro na requisição: {e}")
 
     def filmes_populares(self, page: int = 1):
-        """
-        Retorna filmes populares, aceitando página para carregamento incremental.
-        """
         params = {
             "api_key": self.api_key,
             "language": self.language,
@@ -66,10 +62,6 @@ class TMDbClient:
 
 
 class StreamingClient:
-    """
-    Cliente para buscar provedores de streaming para filmes do TMDb.
-    """
-
     def __init__(self, api_key=API_KEY, base_url=BASE_URL):
         self.api_key = api_key
         self.base_url = base_url

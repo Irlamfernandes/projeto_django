@@ -11,7 +11,7 @@ __pycache__/
 db.sqlite3
 media/
 staticfiles/
-.env
+env_file/.env
 *.env
 
 # IDEs
@@ -29,7 +29,7 @@ docker-compose.override.yml
 .DS_Store
 
 # Environment variables
-.env
+env_file/.env
 .env.*
 
 # Distribution / packaging

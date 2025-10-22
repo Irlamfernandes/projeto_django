@@ -3,11 +3,18 @@ from django.views import View
 from django.http import JsonResponse
 from .services import TMDbClient, TMDbError, StreamingClient
 from .rotas_streaming import STREAMING_LINKS_BY_NAME
-
+from .ia_services import gerar_titulo_ia_gemini
 
 class BuscarFilmeView(View):
     def get(self, request):
+        descricao = request.GET.get("descricao", "").strip()
         query = request.GET.get("filme", "").strip()
+
+        if descricao:
+            titulo_gerado = gerar_titulo_ia_gemini(descricao)
+            if titulo_gerado:
+                query = titulo_gerado
+
         context = {
             "query": query,
             "filmes": [],
@@ -58,7 +65,6 @@ class BuscarFilmeView(View):
                 context["erro"] = f"Ocorreu um erro ao buscar os filmes: {e}"
 
         return render(request, "coreapp/resultados.html", context)
-
 
 class DetalheFilmeView(View):
     def get(self, request, filme_id):
@@ -142,7 +148,6 @@ class DetalheFilmeView(View):
 
         return render(request, 'coreapp/detalhe_filme.html', context)
 
-
 class SobreView(View):
     template_name = 'coreapp/sobre.html'
 
@@ -154,10 +159,6 @@ class FilmesPopularesView(View):
     template_name = 'coreapp/filmes_populares.html'
 
     def get(self, request, *args, **kwargs):
-        """
-        Se a requisição for AJAX, retorna JSON com os próximos filmes.
-        Caso contrário, renderiza a página normal com os primeiros filmes.
-        """
         page = int(request.GET.get("page", 1))
         client = TMDbClient()
         streaming_client = StreamingClient()
@@ -199,7 +200,6 @@ class FilmesPopularesView(View):
                 })
 
             if request.headers.get("x-requested-with") == "XMLHttpRequest":
-                # Retorna apenas JSON para AJAX
                 return JsonResponse({
                     "filmes": filmes_formatados,
                     "page": page,
