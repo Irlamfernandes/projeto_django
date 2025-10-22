@@ -11,7 +11,8 @@
     <h1 class="welcome-text">Bem-vindo!</h1>
 
     <form method="GET" action="{% url 'resultados' %}">
-        <input type="text" name="filme" placeholder="Buscar filme..." required>
+        <input type="text" name="filme" placeholder="Buscar filme pelo nome">
+        <input type="text" name="descricao" placeholder="Ou descreva o filme para a IA">
         <button type="submit">Buscar</button>
     </form>
-{% endblock %}
+{% endblock %}

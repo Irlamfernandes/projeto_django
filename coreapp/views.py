@@ -2,14 +2,20 @@ from datetime import date
 from django.shortcuts import render
 from django.views import View
 from django.http import JsonResponse
-from .services import TMDbClient, TMDbError, StreamingClient 
+from .services import TMDbClient, TMDbError, StreamingClient
 from .rotas_streaming import STREAMING_LINKS_BY_NAME
-
-# --- Views Existentes (Sem Alterações) ---
+from .ia_services import gerar_titulo_ia_gemini
 
 class BuscarFilmeView(View):
     def get(self, request):
+        descricao = request.GET.get("descricao", "").strip()
         query = request.GET.get("filme", "").strip()
+
+        if descricao:
+            titulo_gerado = gerar_titulo_ia_gemini(descricao)
+            if titulo_gerado:
+                query = titulo_gerado
+
         context = {
             "query": query,
             "filmes": [],
@@ -144,7 +150,6 @@ class DetalheFilmeView(View):
 
         return render(request, 'coreapp/detalhe_filme.html', context)
 
-
 class SobreView(View):
     template_name = 'coreapp/sobre.html'
 
@@ -152,20 +157,18 @@ class SobreView(View):
         return render(request, self.template_name)
 
 
-# --- FilmesPopularesView (Atualizada) ---
-
 class FilmesPopularesView(View):
     template_name = 'coreapp/filmes_populares.html'
-    
+
     # Mapeamento da categoria na URL para o método de busca
     CATEGORIAS = {
         'populares': {'titulo': '🍿Populares', 'metodo': 'filmes_populares', 'limite_inicial': None},
-        'top_10': {'titulo': '🏆Top 10', 'metodo': 'top_rated_filmes', 'limite_inicial': 10}, 
+        'top_10': {'titulo': '🏆Top 10', 'metodo': 'top_rated_filmes', 'limite_inicial': 10},
         # Próximos Lançamentos (upcoming) - Será filtrado na view
-        'proximos_lancamentos': {'titulo': '👀Em Breve nos Cinemas', 'metodo': 'filmes_lancamentos', 'limite_inicial': None}, 
+        'proximos_lancamentos': {'titulo': '👀Em Breve nos Cinemas', 'metodo': 'filmes_lancamentos', 'limite_inicial': None},
         # Nos Cinemas (now_playing)
-        'nos_cinemas': {'titulo': '🎥Nos Cinemas', 'metodo': 'filmes_now_playing', 'limite_inicial': None}, 
-        'em_alta': {'titulo': '🔥Em Alta', 'metodo': 'filmes_trending_week', 'limite_inicial': None}, 
+        'nos_cinemas': {'titulo': '🎥Nos Cinemas', 'metodo': 'filmes_now_playing', 'limite_inicial': None},
+        'em_alta': {'titulo': '🔥Em Alta', 'metodo': 'filmes_trending_week', 'limite_inicial': None},
     }
 
     def _formatar_filmes(self, resultados_api):
@@ -181,10 +184,10 @@ class FilmesPopularesView(View):
         return filmes_formatados
 
     def get(self, request, *args, **kwargs):
-        
+
         categoria_slug = request.GET.get("categoria", "populares")
         categoria_info = self.CATEGORIAS.get(categoria_slug, self.CATEGORIAS['populares'])
-        
+
         page = int(request.GET.get("page", 1))
         client = TMDbClient()
 
@@ -201,19 +204,19 @@ class FilmesPopularesView(View):
         try:
             metodo_de_busca = getattr(client, categoria_info['metodo'])
             resultados_api = metodo_de_busca(page=page)
-            
+
             resultados_filtrados = resultados_api
 
             # LÓGICA DE FILTRO: Garante que "Próximos Lançamentos" só mostre filmes futuros
             if categoria_slug == 'proximos_lancamentos':
                 hoje = date.today()
-                
+
                 # Filtra apenas filmes onde a data de lançamento é estritamente futura
                 resultados_filtrados = [
                     filme for filme in resultados_api
                     if filme.get("release_date") and date.fromisoformat(filme["release_date"]) > hoje
                 ]
-            
+
             # LÓGICA DE LIMITE: Top 10 só mostra 10 na primeira página
             if categoria_slug == 'top_10' and page == 1:
                 limite = categoria_info['limite_inicial']
@@ -223,7 +226,7 @@ class FilmesPopularesView(View):
             else:
                 resultados_finais = resultados_filtrados
                 # Se a API retornou resultados, assumimos que pode haver mais
-                context["tem_mais"] = len(resultados_api) > 0 
+                context["tem_mais"] = len(resultados_api) > 0
 
             # Formata os dados (agora sem sinopse/serviços)
             filmes_formatados = self._formatar_filmes(resultados_finais)

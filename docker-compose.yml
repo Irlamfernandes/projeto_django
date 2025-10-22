@@ -1,6 +1,8 @@
 services:
   web:
     build: .
+    env_file:
+      - ./env_file/.env
     container_name: django_app
     command: ./entrypoint.sh
     volumes:
