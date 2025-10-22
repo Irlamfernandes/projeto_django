@@ -20,26 +20,6 @@ Resultados da Busca - BuscarFilmes
                     <img src="{{ filme.poster_url }}" alt="Poster de {{ filme.titulo }}" class="poster">
                     <div class="info-filme">
                         <h2>{{ filme.titulo }}</h2>
-                        <div class="sinopse-container">
-                            <input type="checkbox" id="toggle-{{ forloop.counter }}" class="toggle-checkbox">
-                            <p class="sinopse">{{ filme.sinopse }}</p>
-                            <label for="toggle-{{ forloop.counter }}" class="toggle-label"></label>
-                        </div>
-                        <p><strong>Disponível em:</strong></p>
-                        <ul class="servicos">
-                            {% for servico in filme.servicos %}
-                                {% if servico.logo_url %}
-                                    <li>
-                                        <a href="{{ servico.link }}" target="_blank">
-                                            <img src="{{ servico.logo_url }}" alt="{{ servico.nome }}">
-                                        </a>
-                                    </li>
-                                {% endif %}
-                            {% empty %}
-                                <img src="{% static 'img/coreapp/utorrent.webp' %}" alt="">
-                                <img src="{% static 'img/coreapp/tpb.svg' %}" alt="">
-                            {% endfor %}
-                        </ul>
                         <a href="/filme/{{ filme.id }}/" class="btn-mais-info">Mais informações</a>
                     </div>
                 </li>
